@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>StoraGetoGo - Local</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f9; text-align: center; padding-top: 50px; margin: 0; }
+        .box { background: white; padding: 30px; border-radius: 8px; display: inline-block; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); max-width: 450px; width: 100%; }
+        input[type="file"] { margin: 20px 0; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #0056b3; }
+        .link-box { margin-top: 20px; word-break: break-all; }
+        input[type="text"] { width: 90%; padding: 8px; text-align: center; margin-top: 10px; border: 1px solid #ccc; border-radius: 4px; background: #e9ecef; }
+        a.download-btn { display: inline-block; background: #28a745; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-top: 15px; font-weight: bold; }
+        a.download-btn:hover { background: #218838; }
+    </style>
+</head>
+<body>
+
+    <div class="box">
+        <h1>StoraGetoGo 📦</h1>
+        <p>Sube un archivo para generar su enlace de descarga temporal.</p>
+        
+        <input type="file" id="inputFile"><br>
+        <button onclick="subirArchivo()">Generar Enlace</button>
+
+        <div id="resultado" class="link-box"></div>
+    </div>
+
+    <script>
+        function subirArchivo() {
+            const input = document.getElementById('inputFile');
+            const resultado = document.getElementById('resultado');
+
+            if (input.files.length === 0) {
+                alert('Por favor selecciona un archivo primero.');
+                return;
+            }
+
+            const archivo = input.files[0];
+            
+            // Creamos una URL temporal local para el archivo
+            const urlTemporal = URL.createObjectURL(archivo);
+
+            // Mostramos la caja de texto con el link y el botón directo
+            resultado.innerHTML = `
+                <p><strong>¡Enlace generado con éxito!</strong></p>
+                <p>Copia tu enlace:</p>
+                <input type="text" value="${urlTemporal}" readonly onclick="this.select();"><br>
+                <a class="download-btn" href="${urlTemporal}" download="${archivo.name}">Descargar Archivo</a>
+            `;
+        }
+    </script>
+
+</body>
+</html>
